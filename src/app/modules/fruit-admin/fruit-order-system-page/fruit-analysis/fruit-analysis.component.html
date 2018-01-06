@@ -1,0 +1,112 @@
+<div class="actions">
+  <!-- 工具条 -->
+
+  <ul class="nav nav-pills actions right" role="tablist">
+    <!-- 添加 商品种类按钮 -->
+    <li class="btn btn-success">
+      账单记录
+      <i class="glyphicon glyphicon-time"></i>
+    </li>
+    <!-- 批量删除管理按钮 -->
+    <li class="btn btn-primary">
+      用户记录
+      <i class="glyphicon glyphicon-user"></i>
+    </li>
+
+
+    <div class="btn-group " dropdown>
+      <button dropdownToggle type="button" class="btn drop-btn dropdown-toggle">
+        导出
+        <span class="caret"></span>
+      </button>
+      <ul *dropdownMenu class="dropdown-menu" role="menu">
+        <li role="menuitem">
+          <a class="dropdown-item" (click)="exportExcel()">Excel</a>
+        </li>
+        <li class="divider dropdown-divider"></li>
+        <li role="menuitem">
+          <a class="dropdown-item" href="#">JSON</a>
+        </li>
+      </ul>
+    </div>
+  </ul>
+
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6" (click)="drp.toggle()">起点日期</div>
+    <div class="col-xs-6">终点日期</div>
+  </div>
+</div>
+
+
+
+<div class="row form-inline center">
+  <div class="col-xs-12 col-12 col-md-4 form-group">
+    <input class="form-control" #drp="bsDaterangepicker" (change)="queryByDate()" bsDaterangepicker [(ngModel)]="bsRangeValue">
+    <label class="btn btn-success" (click)="queryByDate()">查询</label>
+    <!-- <button  >查询</button> -->
+  </div>
+
+</div>
+
+<div class="container">
+  <div class="col-md-4">
+    <h4>选中用户: {{selectedUser?.nickname}} </h4>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>用户名</th>
+          <th>手机号</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users" (click)="selectedUser =user" [class.active]="selectedUser==user">
+          <td>{{user.nickname}}</td>
+          <td>{{user.phone}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="col-md-8">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>产品</th>
+          <th>时间</th>
+          <th>数量</th>
+          <th>缩略图</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let order of orders ;let i = index ">
+          <tr *ngIf=" i >currentPage*10 -10  && i<currentPage*10  ">
+            <td>{{order.product?.name}}</td>
+            <th>{{order.createDt | date:'yyyy年MM月dd日 HH:mm'}}</th>
+            <td>{{order.num}}</td>
+            <td>
+              <img [src]="order.product?.images[0].url" alt="" style="max-height:40px;"> </td>
+            <td>
+              <span [ngSwitch]="order.state">
+                <p *ngSwitchCase="FruitOrderState.UnConfirm">
+                  购物车中
+                </p>
+                <p *ngSwitchCase="FruitOrderState.SendProduct">
+                  发货中
+                </p>
+                <p *ngSwitchDefault>
+                  已完结
+                </p>
+              </span>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <pagination [totalItems]="orders.length" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [previousText]="'上一页'"
+      [nextText]="'下一页'"></pagination>
+  </div>
+</div>

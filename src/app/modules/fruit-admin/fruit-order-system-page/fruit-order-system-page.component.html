@@ -1,0 +1,48 @@
+<nav class="navbar navbar-default navbar-fixed-top hidden-xs" role="navigation">
+  <!-- <a class="navbar-brand" href="#">Title</a> -->
+  <div class="navbar-content">
+    <div class="navbar-left">
+      <ul class="nav navbar-nav">
+
+        <li class="active">
+          <a routerLink="/admin/">首页</a>
+        </li>
+        <!-- <li> -->
+        <!-- <a href="#">Link</a> -->
+        <!-- </li> -->
+      </ul>
+    </div>
+    <div class="navbar-right">
+      <ul class="nav navbar-nav">
+        <li>
+          <a>你好,{{admin?.nickname}}</a>
+        </li>
+
+        <li class="active">
+          <a (click)="logout()">退出</a>
+        </li>
+
+        <!-- <li> -->
+        <!-- <a href="#">Link</a> -->
+        <!-- </li> -->
+      </ul>
+    </div>
+  </div>
+</nav>
+<div style="margin-top:60px;">
+  <tabset>
+    <tab heading="用户">
+      <app-fruit-user-manage></app-fruit-user-manage>
+    </tab>
+    <tab heading="商品">
+      <app-fruit-product-manage></app-fruit-product-manage>
+    </tab>
+
+    <tab heading="统计">
+      <app-fruit-analysis></app-fruit-analysis>
+    </tab>
+    <tab heading="应用设置"></tab>
+
+
+  </tabset>
+</div>
